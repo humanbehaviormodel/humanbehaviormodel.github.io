@@ -8,517 +8,675 @@
 
   <style>
     :root{
-      /* ====== Change colors here ====== */
-      --brand:  #7c3aed;  /* primary */
-      --brand2: #06b6d4;  /* accent  */
-      --bg:     #070a12;
-      --panel:  rgba(255,255,255,.06);
-      --panel2: rgba(255,255,255,.085);
-      --text:   rgba(255,255,255,.92);
-      --muted:  rgba(255,255,255,.72);
-      --line:   rgba(255,255,255,.14);
-      --shadow: 0 14px 40px rgba(0,0,0,.45);
+      /* ======== Theme (change colors here) ======== */
+      --accent:  #7c3aed;   /* purple */
+      --accent2: #06b6d4;   /* cyan   */
+      --heroTint: rgba(9, 12, 22, .65);
+
+      /* ======== Base ======== */
+      --bg: #0b0f1c;
+      --ink: #111827;
+      --muted: #4b5563;
+
+      --paper: #eef2f7;     /* light section */
+      --paper2:#e8edf4;     /* slightly darker */
+      --card: #ffffff;
+
+      --line: rgba(17,24,39,.14);
+      --lineW: rgba(255,255,255,.16);
+
+      --shadow: 0 18px 45px rgba(0,0,0,.22);
       --radius: 18px;
-      --maxw:   1100px;
-      --sans:   ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
-      --mono:   ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --maxw: 1100px;
+
+      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
     }
+
     *{box-sizing:border-box}
     html{scroll-behavior:smooth}
     body{
       margin:0;
       font-family:var(--sans);
-      color:var(--text);
-      background:
-        radial-gradient(1100px 600px at 18% 8%, color-mix(in srgb, var(--brand) 26%, transparent), transparent 60%),
-        radial-gradient(950px 520px at 80% 12%, color-mix(in srgb, var(--brand2) 20%, transparent), transparent 58%),
-        linear-gradient(180deg, rgba(0,0,0,.25), rgba(0,0,0,.8)),
-        var(--bg);
-      line-height:1.65;
+      background: var(--bg);
+      color:#fff;
     }
-    a{color:var(--brand2); text-decoration:none}
-    a:hover{color:#fff; text-decoration:underline}
+    a{color:inherit; text-decoration:none}
+    a:hover{opacity:.92; text-decoration:underline}
     .wrap{max-width:var(--maxw); margin:0 auto; padding:0 22px}
-    .topbar{
-      position:sticky; top:0; z-index:50;
+
+    /* ======== Header (sticky) ======== */
+    header.site-header{
+      position:fixed; top:0; left:0; right:0; z-index:50;
+      background: rgba(0,0,0,.28);
       backdrop-filter: blur(10px);
-      background: rgba(7,10,18,.65);
-      border-bottom:1px solid var(--line);
+      border-bottom: 1px solid rgba(255,255,255,.10);
     }
-    .topbar-inner{
+    .header-inner{
       display:flex; align-items:center; justify-content:space-between;
-      padding:12px 0;
+      padding:14px 0;
       gap:14px;
     }
-    .brand{
-      display:flex; align-items:center; gap:10px; font-weight:800; letter-spacing:.2px;
-      white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
-      max-width: min(700px, 70vw);
+    .site-title{
+      font-weight:800;
+      letter-spacing:.2px;
+      font-size:14px;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      max-width:min(70vw, 760px);
+      opacity:.95;
     }
-    .dot{
-      width:10px; height:10px; border-radius:999px;
-      background: linear-gradient(135deg, var(--brand), var(--brand2));
-      box-shadow: 0 0 0 4px rgba(255,255,255,.06);
-      flex:0 0 auto;
-    }
-    .navlinks{display:flex; gap:14px; flex-wrap:wrap; justify-content:flex-end}
-    .navlinks a{color:var(--muted); font-size:14px}
-    .navlinks a:hover{color:var(--text); text-decoration:none}
     .menu-btn{
-      display:none;
-      border:1px solid var(--line);
-      background:rgba(255,255,255,.06);
-      color:var(--text);
-      padding:8px 10px;
+      display:inline-flex; align-items:center; gap:10px;
+      padding:10px 12px;
       border-radius:12px;
-      font-weight:650;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      color:#fff;
       cursor:pointer;
+      font-weight:750;
     }
-    @media (max-width: 860px){
-      .navlinks{display:none}
-      .menu-btn{display:inline-flex}
+    .menu-btn:active{transform: translateY(1px)}
+    .hamburger{
+      width:16px; height:12px; position:relative; display:inline-block;
     }
+    .hamburger span{
+      position:absolute; left:0; right:0; height:2px; background:#fff; border-radius:99px;
+    }
+    .hamburger span:nth-child(1){top:0}
+    .hamburger span:nth-child(2){top:5px; opacity:.85}
+    .hamburger span:nth-child(3){top:10px; opacity:.7}
 
-    /* Drawer menu */
+    /* ======== Drawer menu ======== */
     .drawer{
-      position:fixed; inset:0;
+      position:fixed; inset:0; z-index:80;
       background: rgba(0,0,0,.55);
-      display:none; align-items:flex-start; justify-content:flex-end;
-      z-index:100;
+      display:none;
+      align-items:flex-start;
+      justify-content:flex-end;
     }
     .drawer.open{display:flex}
     .drawer-panel{
       width:min(420px, 92vw);
       height:100%;
       background: #0a0f1f;
-      border-left:1px solid var(--line);
-      padding:18px 18px;
+      border-left:1px solid rgba(255,255,255,.14);
+      padding:18px;
     }
-    .drawer-top{display:flex; align-items:center; justify-content:space-between; gap:10px}
-    .drawer h3{margin:6px 0 10px}
-    .drawer a{
-      display:block;
-      padding:10px 10px;
-      border-radius:12px;
-      color:var(--text);
-      border:1px solid transparent;
-    }
-    .drawer a:hover{background:rgba(255,255,255,.06); border-color:var(--line); text-decoration:none}
+    .drawer-top{display:flex; justify-content:space-between; align-items:center; gap:12px}
+    .drawer h2{margin:6px 0 10px; font-size:18px}
     .close-btn{
-      border:1px solid var(--line);
-      background:rgba(255,255,255,.06);
-      color:var(--text);
-      padding:8px 10px;
-      border-radius:12px;
-      font-weight:650;
-      cursor:pointer;
-    }
-
-    /* Hero */
-    .hero{padding:46px 0 24px}
-    .hero-grid{
-      display:grid;
-      grid-template-columns: 1.25fr .75fr;
-      gap:16px;
-      align-items:stretch;
-    }
-    @media (max-width: 980px){
-      .hero-grid{grid-template-columns:1fr}
-    }
-    .card{
-      background: linear-gradient(180deg, var(--panel2), var(--panel));
-      border:1px solid var(--line);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding:20px;
-    }
-    .kicker{
-      text-transform:uppercase;
-      letter-spacing:.12em;
-      font-size:12px;
-      color:var(--muted);
-    }
-    h1{
-      margin:.45rem 0 .6rem;
-      font-size: clamp(28px, 4.2vw, 44px);
-      line-height:1.1;
-    }
-    .sub{margin:0; color:var(--muted)}
-    .badges{display:flex; flex-wrap:wrap; gap:10px; margin-top:14px}
-    .badge{
-      display:inline-flex; align-items:center; gap:8px;
-      padding:8px 10px;
-      border-radius:999px;
-      background:rgba(255,255,255,.06);
-      border:1px solid var(--line);
-      font-size:13px;
-      color:var(--muted);
-    }
-    .btnrow{display:flex; flex-wrap:wrap; gap:10px; margin-top:16px}
-    .btn{
-      display:inline-flex; align-items:center; gap:10px;
       padding:10px 12px;
-      border-radius:14px;
-      border:1px solid var(--line);
-      background:rgba(255,255,255,.06);
-      color:var(--text);
-      font-weight:750;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      color:#fff;
       cursor:pointer;
+      font-weight:750;
     }
-    .btn:hover{background:rgba(255,255,255,.10); text-decoration:none}
-    .btn.primary{
-      background: linear-gradient(135deg, color-mix(in srgb, var(--brand) 28%, transparent), color-mix(in srgb, var(--brand2) 22%, transparent));
-      border-color: color-mix(in srgb, var(--brand2) 45%, var(--line));
+    .drawer a.link{
+      display:block;
+      padding:12px 12px;
+      border-radius:14px;
+      border:1px solid transparent;
+      color: rgba(255,255,255,.92);
+      margin:6px 0;
     }
+    .drawer a.link:hover{
+      background: rgba(255,255,255,.06);
+      border-color: rgba(255,255,255,.12);
+      text-decoration:none;
+    }
+    .drawer small{color: rgba(255,255,255,.65)}
 
-    /* Sections */
-    section.block{padding:14px 0}
-    .section-title{
-      margin:0 0 10px;
-      font-size:20px;
+    /* ======== Hero ======== */
+    .hero{
+      min-height: 72vh;
+      padding-top: 78px; /* header offset */
       display:flex;
       align-items:center;
-      gap:10px;
-    }
-    .section-title:after{
-      content:"";
-      height:1px;
-      background: linear-gradient(90deg, var(--brand2), transparent);
-      flex:1;
-      opacity:.75;
-    }
-    p{margin:0 0 12px; color:var(--muted)}
-    ul{margin:0; padding-left:18px; color:var(--muted)}
-    .grid2{display:grid; grid-template-columns:1fr 1fr; gap:14px}
-    @media(max-width: 900px){.grid2{grid-template-columns:1fr}}
+      position:relative;
+      overflow:hidden;
 
-    /* Table */
-    table{
+      /* Swirl-ish "art" without external image:
+         layered gradients + subtle SVG noise */
+      background:
+        radial-gradient(900px 520px at 15% 25%, rgba(124,58,237,.24), transparent 60%),
+        radial-gradient(850px 560px at 80% 15%, rgba(6,182,212,.22), transparent 60%),
+        radial-gradient(700px 520px at 60% 80%, rgba(124,58,237,.18), transparent 65%),
+        linear-gradient(180deg, rgba(0,0,0,.25), rgba(0,0,0,.65)),
+        var(--bg);
+    }
+    /* noise overlay */
+    .hero::before{
+      content:"";
+      position:absolute; inset:-50px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)' opacity='.28'/%3E%3C/svg%3E");
+      mix-blend-mode: overlay;
+      opacity:.35;
+      transform: rotate(-3deg) scale(1.2);
+      pointer-events:none;
+    }
+    /* dark tint */
+    .hero::after{
+      content:"";
+      position:absolute; inset:0;
+      background: var(--heroTint);
+      pointer-events:none;
+    }
+
+    .hero-inner{
+      position:relative; z-index:2;
+      padding: 62px 0 88px;
+    }
+    .hero h1{
+      margin:0 0 14px;
+      font-size: clamp(34px, 4.6vw, 56px);
+      line-height:1.06;
+      letter-spacing: .2px;
+    }
+    .hero h1 .subline{
+      display:block;
+      margin-top:10px;
+      font-size: clamp(22px, 3vw, 36px);
+      opacity:.96;
+      font-weight:800;
+    }
+    .hero p{
+      margin:0;
+      max-width: 900px;
+      font-size: 18px;
+      line-height: 1.7;
+      color: rgba(255,255,255,.88);
+    }
+    .cta-row{
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+      margin-top:24px;
+    }
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center;
+      padding:12px 16px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.18);
+      background: rgba(255,255,255,.06);
+      color:#fff;
+      font-weight:800;
+      letter-spacing:.2px;
+      cursor:pointer;
+    }
+    .btn:hover{background: rgba(255,255,255,.10); text-decoration:none}
+    .btn.primary{
+      border-color: color-mix(in srgb, var(--accent2) 55%, rgba(255,255,255,.18));
+      background: linear-gradient(135deg,
+        color-mix(in srgb, var(--accent) 26%, rgba(255,255,255,.08)),
+        color-mix(in srgb, var(--accent2) 22%, rgba(255,255,255,.06))
+      );
+    }
+    .btn.primary:hover{
+      background: linear-gradient(135deg,
+        color-mix(in srgb, var(--accent) 34%, rgba(255,255,255,.10)),
+        color-mix(in srgb, var(--accent2) 30%, rgba(255,255,255,.08))
+      );
+    }
+
+    /* ======== Slanted separator ======== */
+    .slant{
+      height: 120px;
+      background: var(--paper);
+      transform: skewY(-2.2deg);
+      transform-origin: 0 0;
+      margin-top: -70px; /* pulls up under hero */
+    }
+    .slant > div{
+      transform: skewY(2.2deg);
+      height:100%;
+    }
+
+    /* ======== Light sections ======== */
+    .light-area{
+      background: var(--paper);
+      color: var(--ink);
+      padding: 0 0 44px;
+    }
+    .section{
+      padding: 54px 0 40px;
+    }
+    .section h2{
+      margin:0 0 14px;
+      font-size: 28px;
+      letter-spacing:.2px;
+    }
+    .rule{
+      height:2px;
+      width:100%;
+      max-width: 980px;
+      background: color-mix(in srgb, var(--accent2) 70%, #d11);
+      /* keep “thin red line vibe”, but in your own color */
+      opacity:.95;
+      margin: 12px 0 22px;
+    }
+    .section p{
+      color: var(--muted);
+      font-size:16.5px;
+      line-height:1.9;
+      margin:0 0 14px;
+    }
+    .section ul{
+      margin:0;
+      padding-left: 22px;
+      color: var(--muted);
+      line-height:1.85;
+    }
+    .section li{margin: 10px 0}
+
+    /* ======== Program table card ======== */
+    .card{
+      background: var(--card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(17,24,39,.10);
+      overflow:hidden;
+      max-width: 820px;
+    }
+    .card table{
       width:100%;
       border-collapse:separate;
       border-spacing:0;
-      overflow:hidden;
-      border-radius: var(--radius);
-      border:1px solid var(--line);
-      background: rgba(255,255,255,.04);
     }
-    th,td{
-      padding:12px 12px;
-      border-bottom:1px solid var(--line);
+    .card thead th{
+      background:#2f363d;
+      color:#fff;
+      font-weight:800;
+      text-align:left;
+      padding:14px 16px;
+      font-size:16px;
+    }
+    .card tbody td{
+      padding:16px;
+      border-top:1px solid rgba(17,24,39,.10);
       vertical-align:top;
+      color:#111827;
+      font-size:15.5px;
+      line-height:1.6;
     }
-    th{
-      font-size:13px;
-      text-transform:uppercase;
-      letter-spacing:.06em;
-      color:rgba(255,255,255,.82);
-      background: rgba(255,255,255,.05);
+    .time{
+      width:120px;
+      font-variant-numeric: tabular-nums;
+      color:#374151;
+      white-space:nowrap;
     }
-    tr:last-child td{border-bottom:none}
+    .talk b{color:#111827}
+    .talk i{color:#374151}
 
-    /* Organizer cards */
-    .orgs{display:grid; grid-template-columns: repeat(3, 1fr); gap:12px}
-    @media(max-width: 1100px){.orgs{grid-template-columns: repeat(2, 1fr);}}
-    @media(max-width: 680px){.orgs{grid-template-columns: 1fr;}}
+    /* ======== Dark footer area (Organizers style) ======== */
+    .dark-area{
+      background: #4d5361; /* similar to screenshot; you can recolor */
+      padding: 70px 0 50px;
+      position:relative;
+      overflow:hidden;
+    }
+    .dark-area::before{
+      content:"";
+      position:absolute; inset:0;
+      background:
+        radial-gradient(900px 520px at 20% 0%, rgba(255,255,255,.10), transparent 60%),
+        radial-gradient(900px 520px at 80% 20%, rgba(0,0,0,.12), transparent 60%);
+      opacity:.6;
+      pointer-events:none;
+    }
+    .dark-area .wrap{position:relative; z-index:2}
+    .dark-area h2{
+      margin:0 0 12px;
+      font-size: 28px;
+    }
+    .dark-area .rule{background: rgba(255,255,255,.28); max-width: 980px}
+    .dark-area p{color: rgba(255,255,255,.82); margin:0 0 18px}
+
+    .org-grid{
+      display:grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 30px 26px;
+      margin-top: 24px;
+    }
+    @media (max-width: 980px){ .org-grid{grid-template-columns: repeat(2, 1fr);} }
+    @media (max-width: 520px){ .org-grid{grid-template-columns: 1fr;} }
+
     .org{
-      border:1px solid var(--line);
-      background: rgba(255,255,255,.05);
-      border-radius: 16px;
-      padding:14px;
+      text-align:center;
+      padding: 8px 8px;
     }
-    .org .name{font-weight:850; margin:0 0 4px}
-    .org .aff{margin:0 0 8px; color:var(--muted); font-size:13px}
-    .org .meta{font-family:var(--mono); font-size:12px; color:rgba(255,255,255,.72); line-height:1.45}
-    .footer{
-      padding:28px 0 40px;
-      color:rgba(255,255,255,.62);
-      font-size:13px;
+    .avatar{
+      width: 118px;
+      height: 118px;
+      border-radius: 999px;
+      margin: 0 auto 14px;
+      display:grid;
+      place-items:center;
+      color:#fff;
+      font-weight:900;
+      font-size: 34px;
+      letter-spacing:.5px;
+      background:
+        radial-gradient(circle at 30% 30%, rgba(255,255,255,.25), transparent 55%),
+        linear-gradient(135deg, rgba(0,0,0,.10), rgba(0,0,0,.35)),
+        linear-gradient(135deg, var(--accent), var(--accent2));
+      box-shadow: 0 12px 30px rgba(0,0,0,.25);
+      border: 3px solid rgba(255,255,255,.24);
     }
-    .hr{height:1px; background:var(--line); opacity:.9; margin:14px 0}
-    .pill{
-      display:inline-flex;
-      padding:6px 10px;
-      border-radius:999px;
-      border:1px solid var(--line);
-      background:rgba(255,255,255,.05);
-      color:rgba(255,255,255,.78);
-      font-size:12px;
-      gap:8px;
-      align-items:center;
+    .org .name{
+      font-weight:900;
+      font-size: 20px;
+      color:#fff;
+      margin: 0 0 8px;
     }
+    .org .role{
+      color: rgba(255,255,255,.78);
+      margin:0;
+      font-size: 14.5px;
+      line-height:1.6;
+    }
+
+    .copyright{
+      margin-top: 34px;
+      padding-top: 18px;
+      border-top: 1px solid rgba(255,255,255,.22);
+      color: rgba(255,255,255,.65);
+      font-size: 13px;
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+      justify-content:space-between;
+    }
+
+    /* anchor offset for fixed header */
+    .anchor{scroll-margin-top: 86px;}
   </style>
 </head>
 
 <body>
-  <!-- Top bar -->
-  <div class="topbar">
+
+  <!-- Header -->
+  <header class="site-header">
     <div class="wrap">
-      <div class="topbar-inner">
-        <div class="brand"><span class="dot"></span> Next-Gen Human Behavior Modeling Workshop</div>
-
-        <div class="navlinks">
-          <a href="#overview">Overview</a>
-          <a href="#abstract">Abstract</a>
-          <a href="#program">Program</a>
-          <a href="#tc">ITSS TCs</a>
-          <a href="#organizers">Organizers</a>
-        </div>
-
-        <button class="menu-btn" id="openMenu">Menu</button>
+      <div class="header-inner">
+        <div class="site-title">Workshop on <em>Next-Generation Human Behavior Modeling</em> for Autonomous Driving</div>
+        <!-- <button class="menu-btn" id="openMenu" aria-label="Open menu">
+          Previous Years
+          <span class="hamburger" aria-hidden="true">
+            <span></span><span></span><span></span>
+          </span>
+        </button> -->
       </div>
     </div>
-  </div>
+  </header>
 
   <!-- Drawer -->
   <div class="drawer" id="drawer" aria-hidden="true">
     <div class="drawer-panel" role="dialog" aria-modal="true" aria-label="Menu">
       <div class="drawer-top">
-        <h3 style="margin:0">Menu</h3>
+        <h2>Previous Years</h2>
         <button class="close-btn" id="closeMenu">Close</button>
       </div>
-      <div class="hr"></div>
-      <a href="#overview" class="drawer-link">Overview</a>
-      <a href="#abstract" class="drawer-link">Abstract</a>
-      <a href="#program" class="drawer-link">Program</a>
-      <a href="#tc" class="drawer-link">ITSS Technical Committee</a>
-      <a href="#organizers" class="drawer-link">Organizers</a>
+      <small>Use this drawer for navigation or previous editions.</small>
+      <div style="height:12px"></div>
+
+      <a class="link" href="#overview">Overview</a>
+      <a class="link" href="#abstract">Abstract</a>
+      <a class="link" href="#topics">Scope & Topics</a>
+      <a class="link" href="#program">Program</a>
+      <a class="link" href="#tc">ITSS Technical Committee</a>
+      <a class="link" href="#organizers">Organizers</a>
+
+      <div style="height:14px"></div>
+      <a class="link" href="index_2024.html">2024 (optional link)</a>
+      <small style="display:block;margin-top:8px;opacity:.8">
+        If you don’t have 2024 page yet, remove this line.
+      </small>
     </div>
   </div>
 
   <!-- Hero -->
-  <header class="hero">
-    <div class="wrap">
-      <div class="hero-grid">
-        <div class="card">
-          <div class="kicker">Half-day Workshop</div>
-          <h1>Next-Generation Human Behavior Modeling for Autonomous Driving</h1>
-          <p class="sub">
-            Autonomous driving depends on smooth collaboration between humans and vehicles—safe, comfortable, and trustworthy shared control.
-          </p>
+  <section class="hero">
+    <div class="wrap hero-inner">
+      <h1>
+        Next-Generation Human Behavior Modeling for Autonomous Driving
+        <span class="subline">Half-day Workshop</span>
+      </h1>
+      <p>
+        Autonomous driving depends on smooth collaboration between humans and vehicles so that shared control remains safe,
+        comfortable, and trustworthy. Future automated vehicles must understand how humans drive, anticipate intentions in mixed
+        traffic, and respond naturally—while interpreting human instructions (spoken words, gestures, and traffic rules) and adapting
+        driving behavior accordingly.
+      </p>
 
-          <div class="badges">
-            <span class="badge">Keywords: <b style="color:var(--text)">Human Behavior Modeling</b></span>
-            <span class="badge"><b style="color:var(--text)">Human–Machine Interaction</b></span>
-            <span class="badge"><b style="color:var(--text)">Generative AI</b></span>
-          </div>
-
-          <div class="btnrow">
-            <a class="btn primary" href="https://ieee-iv.org/2026/" target="_blank" rel="noopener">Conference Page</a>
-            <a class="btn" href="#program">View Program</a>
-            <a class="btn" href="#organizers">Contact</a>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="section-title" style="margin-top:0">Quick Info</div>
-          <p style="margin-bottom:10px">
-            This workshop focuses on next-generation human behavior modeling for autonomous driving, including realistic behavior generation,
-            uncertainty/risk quantification, and analysis of safety-critical rare situations.
-          </p>
-          <div class="hr"></div>
-          <div style="display:flex; gap:10px; flex-wrap:wrap;">
-            <span class="pill">Format: <b style="color:var(--text)">Half day</b></span>
-            <span class="pill">Program: <b style="color:var(--text)">Invited talks + Sessions + Panel</b></span>
-          </div>
-          <p style="margin-top:12px; font-size:13px">
-            (Add date/location/room here if you have them.)
-          </p>
-        </div>
+      <div class="cta-row">
+        <a class="btn primary" href="https://ieee-iv.org/2026/" target="_blank" rel="noopener">Conference Page</a>
+        <a class="btn" href="#program">View Program</a>
+        <a class="btn" href="#organizers">Contact</a>
       </div>
     </div>
-  </header>
+  </section>
 
-  <main class="wrap">
-    <!-- Overview -->
-    <section class="block" id="overview">
-      <div class="card">
-        <div class="section-title">Overview</div>
-        <p>
-          In future road networks, automated vehicles must understand how humans drive, anticipate intentions in mixed traffic,
-          and respond naturally. They must also interpret human instructions (spoken words, gestures, traffic rules) and adapt behavior accordingly.
-        </p>
-        <p>
-          We are especially interested in approaches that generate realistic and diverse behaviors, quantify uncertainty and risk,
-          and support analysis of safety-critical and rare situations—toward more reliable autonomous driving in complex real-world environments.
-        </p>
-      </div>
-    </section>
+  <!-- Slanted transition -->
+  <div class="slant" aria-hidden="true"><div></div></div>
 
-    <!-- Abstract -->
-    <section class="block" id="abstract">
-      <div class="card">
-        <div class="section-title">Abstract</div>
+  <!-- Light content area -->
+  <main class="light-area">
+    <div class="wrap">
+
+      <!-- Overview -->
+      <section id="overview" class="section anchor">
+        <h2>The Workshop</h2>
+        <div class="rule"></div>
         <p>
-          This workshop brings together researchers and practitioners to discuss next-generation human behavior modeling for autonomous driving.
-          Topics include behavior modeling and prediction of drivers and vulnerable road users, behavior-based simulation and digital twins,
-          evaluation of behavior realism, and human–AV interaction in real traffic.
+            Autonomous driving depends on smooth collaboration between humans and vehicles so that shared
+            control remains safe, comfortable, and trustworthy. In future road networks, automated vehicles
+            will need to understand how humans drive, anticipate their intentions in mixed traffic, and respond
+            in a way that feels natural to surrounding road users. At the same time, these vehicles must
+            correctly interpret human instructions, including spoken words, gestures, and traffic rules, and
+            then adapt their driving behavior accordingly.
         </p>
         <p>
-          Our goal is to identify open challenges, useful data sources, and promising research directions that can lead to human-centered behavior models
-          and more reliable autonomous driving in complex real-world environments.
+            This workshop focuses on next-generation human behavior modeling for autonomous driving.
+            We are especially interested in methods that can generate realistic and diverse human behaviors,
+            quantify uncertainty and risk in these behaviors, and support careful analysis of safety-critical and
+            rare situations. The workshop will bring together researchers and practitioners to discuss models
+            of drivers and vulnerable road users, behavior-based simulation environments and digital twin of
+            traffic systems, evaluation of behavior realism, and interaction between humans and automated
+            vehicles in real traffic. Our goal is to identify open challenges, useful data sources, and promising
+            research directions that can lead to human-centered behavior models and more reliable autonomous
+            driving in complex real-world environments.
         </p>
-      </div>
-    </section>
+        <p><b>Keywords:</b> Human Behavior Modeling, Human–Machine Interaction, Generative AI</p>
+      </section>
 
-    <!-- Program -->
-    <section class="block" id="program">
-      <div class="card">
-        <div class="section-title">Workshop / Tutorial Session Program (Tentative)</div>
-        <p style="margin-top:-4px">
-          Note: The program is tentative and intended to illustrate possible presentations.
-        </p>
+      <!-- Topics -->
+      <section id="topics" class="section anchor">
+        <h2>Call For Papers</h2>
+        <div class="rule"></div>
+        <p><b>The topics of interest of the workshop include, but are not limited to:</b></p>
+        <ul>
+          <li><b>Modeling & prediction of human behavior:</b> driver/VRU intent, interaction-aware forecasting, uncertainty & risk.</li>
+          <li><b>Human–AV interaction:</b> communication (gesture/language), interpretability, trust calibration, user comfort.</li>
+          <li><b>Generative modeling for behavior:</b> diffusion/LLM-based scenario and trajectory generation, rare-event synthesis.</li>
+          <li><b>Simulation & digital twins:</b> behavior-based simulation, mixed autonomy, evaluation of behavior realism.</li>
+          <li><b>Safety-critical scenarios:</b> long-tail events, corner cases, robustness in complex real-world environments.</li>
+        </ul>
+      </section>
 
-        <table aria-label="Schedule">
-          <thead>
-            <tr>
-              <th style="width:160px">Time</th>
-              <th>Session</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr><td>8:30–8:40</td><td><b style="color:var(--text)">Welcome and Introduction</b></td></tr>
-            <tr>
-              <td>8:40–9:20</td>
-              <td><b style="color:var(--text)">Invited Talk 1</b>: Customized Edge AI for Safer and Smarter Human-centric Road Transportation
-                (Dr. Yinhai Wang, University of Washington)</td>
-            </tr>
-            <tr>
-              <td>9:20–10:20</td>
-              <td>
-                <b style="color:var(--text)">Session 1: Modeling &amp; Prediction of Human Behavior</b> (four contributed talks)
-                <ul>
-                  <li>Learning Human-Like Lane-Change and Merging Policies from Naturalistic Driving Data</li>
-                  <li>Multi-Agent Diffusion Models for Interactive Human–Vehicle Behavior Prediction</li>
-                  <li>Large Language Models as World Models for Traffic Scenario Generation and Reasoning</li>
-                  <li>Diffusion-Based Trajectory Generation for Human-Driven Vehicles in Mixed Traffic</li>
-                </ul>
-              </td>
-            </tr>
-            <tr><td>10:20–10:50</td><td><b style="color:var(--text)">Refreshments break</b></td></tr>
-            <tr>
-              <td>10:50–11:20</td>
-              <td><b style="color:var(--text)">Invited Talk 2</b>: Unveiling Uniform Shifted Power Law in Stochastic Human and Autonomous Driving Behavior
-                (Dr. Xiaopeng Li, University of Wisconsin–Madison)</td>
-            </tr>
-            <tr>
-              <td>11:20–12:00</td>
-              <td>
-                <b style="color:var(--text)">Session 2: Simulation, Digital Twins, and Evaluation</b> (four contributed talks)
-                <ul>
-                  <li>Behavior-Based Simulation of Rare but Safety-Critical Traffic Scenarios</li>
-                  <li>Human-Centered Digital Twins for Urban Traffic with Mixed Autonomy</li>
-                  <li>Evaluating Behavior Realism of Autonomous Vehicles via Human-in-the-Loop Simulation</li>
-                  <li>Benchmarking Driver Behavior Models for Human–Vehicle Interaction at Urban Intersections</li>
-                </ul>
-              </td>
-            </tr>
-            <tr><td>12:00–12:20</td><td><b style="color:var(--text)">Panel discussion</b></td></tr>
-            <tr><td>12:20–12:30</td><td><b style="color:var(--text)">Closing</b></td></tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
+      <!-- Program -->
+      <section id="program" class="section anchor">
+        <h2>Program</h2>
+        <div class="rule"></div>
 
-    <!-- ITSS TC -->
-    <section class="block" id="tc">
-      <div class="card">
-        <div class="section-title">ITSS Technical Committee</div>
+        <b>TBD</b>
+
+        <!-- <div class="card">
+          <table>
+            <thead>
+              <tr>
+                <th style="width:120px">Time</th>
+                <th>Session</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="time">8:30–8:40</td>
+                <td class="talk"><b>Welcome and Introduction</b></td>
+              </tr>
+              <tr>
+                <td class="time">8:40–9:20</td>
+                <td class="talk"><b>Invited Talk 1</b>: Customized Edge AI for Safer and Smarter Human-centric Road Transportation
+                  <br><i>Dr. Yinhai Wang, University of Washington</i>
+                </td>
+              </tr>
+              <tr>
+                <td class="time">9:20–10:20</td>
+                <td class="talk">
+                  <b>Session 1: Modeling & Prediction of Human Behavior</b> (four contributed talks)
+                  <ul style="margin:10px 0 0 18px; color:#374151;">
+                    <li>Learning Human-Like Lane-Change and Merging Policies from Naturalistic Driving Data</li>
+                    <li>Multi-Agent Diffusion Models for Interactive Human–Vehicle Behavior Prediction</li>
+                    <li>Large Language Models as World Models for Traffic Scenario Generation and Reasoning</li>
+                    <li>Diffusion-Based Trajectory Generation for Human-Driven Vehicles in Mixed Traffic</li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <td class="time">10:20–10:50</td>
+                <td class="talk"><b>Refreshments break</b></td>
+              </tr>
+              <tr>
+                <td class="time">10:50–11:20</td>
+                <td class="talk"><b>Invited Talk 2</b>: Unveiling Uniform Shifted Power Law in Stochastic Human and Autonomous Driving Behavior
+                  <br><i>Dr. Xiaopeng Li, University of Wisconsin–Madison</i>
+                </td>
+              </tr>
+              <tr>
+                <td class="time">11:20–12:00</td>
+                <td class="talk">
+                  <b>Session 2: Simulation, Digital Twins, and Evaluation</b> (four contributed talks)
+                  <ul style="margin:10px 0 0 18px; color:#374151;">
+                    <li>Behavior-Based Simulation of Rare but Safety-Critical Traffic Scenarios</li>
+                    <li>Human-Centered Digital Twins for Urban Traffic with Mixed Autonomy</li>
+                    <li>Evaluating Behavior Realism of Autonomous Vehicles via Human-in-the-Loop Simulation</li>
+                    <li>Benchmarking Driver Behavior Models for Human–Vehicle Interaction at Urban Intersections</li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <td class="time">12:00–12:20</td>
+                <td class="talk"><b>Panel discussion</b></td>
+              </tr>
+              <tr>
+                <td class="time">12:20–12:30</td>
+                <td class="talk"><b>Closing</b></td>
+              </tr>
+            </tbody>
+          </table>
+        </div> -->
+      </section>
+
+      <!-- ITSS TC -->
+      <section id="tc" class="section anchor">
+        <h2>ITSS Technical Committee</h2>
+        <div class="rule"></div>
         <p>
           Relevant TCs: Emerging Transportation Technology Testing; Automated Mobility in Mixed Traffic;
           Human Factors in ITS; Human-Centered AI in Transportation.
         </p>
-      </div>
-    </section>
+      </section>
 
-    <!-- Organizers -->
-    <section class="block" id="organizers">
-      <div class="card">
-        <div class="section-title">Organizers</div>
-        <p>Contact the organizers for submissions, logistics, or program details.</p>
-
-        <div class="orgs" style="margin-top:12px">
-          <div class="org">
-            <div class="name">Dr. Yinhai Wang</div>
-            <div class="aff">University of Washington</div>
-            <div class="meta">Email: yinhai@uw.edu<br/>Phone: +1 (206) 335-3250</div>
-          </div>
-          <div class="org">
-            <div class="name">Dr. Xiaopeng Li</div>
-            <div class="aff">University of Wisconsin–Madison</div>
-            <div class="meta">Email: xli2485@wisc.edu<br/>Phone: +1 (217) 979-7938</div>
-          </div>
-          <div class="org">
-            <div class="name">Dr. Michael Knodler</div>
-            <div class="aff">University of Massachusetts Amherst</div>
-            <div class="meta">Email: mknodler@umass.edu<br/>Phone: +1 (413) 330-2662</div>
-          </div>
-          <div class="org">
-            <div class="name">Dr. Xuan Sharon Di</div>
-            <div class="aff">Columbia University</div>
-            <div class="meta">Email: sharon.di@columbia.edu<br/>Phone: +1 (212) 853-0435</div>
-          </div>
-          <div class="org">
-            <div class="name">Dr. Jian Sun</div>
-            <div class="aff">Tongji University</div>
-            <div class="meta">Email: sunjian@tongji.edu.cn<br/>Phone: +86 135 8575 3705</div>
-          </div>
-          <div class="org">
-            <div class="name">Dr. Meixin Zhu</div>
-            <div class="aff">Southeast University</div>
-            <div class="meta">Email: meixin@seu.edu.cn<br/>Phone: +86 155 7470 8538</div>
-          </div>
-          <div class="org">
-            <div class="name">Dr. Jie Sun</div>
-            <div class="aff">Tongji University</div>
-            <div class="meta">Email: jie sun@tongji.edu.cn<br/>Phone: +86 186 5658 8199</div>
-          </div>
-          <div class="org">
-            <div class="name">Dr. Xiaowei Shi</div>
-            <div class="aff">University of Wisconsin–Milwaukee</div>
-            <div class="meta">Email: tomshi@uwm.edu<br/>Phone: +1 (414) 251-7530</div>
-          </div>
-          <div class="org">
-            <div class="name">Dr. Kehua Chen</div>
-            <div class="aff">University of Washington</div>
-            <div class="meta">Email: zeonchen@uw.edu<br/>Phone: +1 (458) 271-7707</div>
-          </div>
-          <div class="org">
-            <div class="name">Mr. Bingzhang Wang</div>
-            <div class="aff">University of Washington</div>
-            <div class="meta">Email: bzwang@uw.edu<br/>Phone: +1 (206) 739-7869</div>
-          </div>
-        </div>
-
-        <div class="hr"></div>
-        <div class="footer">
-          © Workshop organizers. One-page static site hosted on GitHub Pages.
-        </div>
-      </div>
-    </section>
+    </div>
   </main>
 
+  <!-- Dark organizers area -->
+  <section id="organizers" class="dark-area anchor">
+    <div class="wrap">
+      <h2>Organizers</h2>
+      <div class="rule"></div>
+      <p>The workshop is organized by:</p>
+
+      <div class="org-grid">
+        <!-- initials avatars (no external images) -->
+        <div class="org">
+          <div class="avatar">KC</div>
+          <div class="name">Dr. Kehua Chen</div>
+          <p class="role">University of Washington<br/>zeonchen@uw.edu</p>
+        </div>
+        <div class="org">
+          <div class="avatar">BW</div>
+          <div class="name">Mr. Bingzhang Wang</div>
+          <p class="role">University of Washington<br/>bzwang@uw.edu</p>
+        </div>
+        <div class="org">
+          <div class="avatar">YW</div>
+          <div class="name">Dr. Yinhai Wang</div>
+          <p class="role">University of Washington<br/>yinhai@uw.edu</p>
+        </div>
+        <div class="org">
+          <div class="avatar">XL</div>
+          <div class="name">Dr. Xiaopeng Li</div>
+          <p class="role">University of Wisconsin–Madison<br/>xli2485@wisc.edu</p>
+        </div>
+
+        <div class="org">
+          <div class="avatar">MK</div>
+          <div class="name">Dr. Michael Knodler</div>
+          <p class="role">UMass Amherst<br/>mknodler@umass.edu</p>
+        </div>
+        <div class="org">
+          <div class="avatar">SD</div>
+          <div class="name">Dr. Xuan Sharon Di</div>
+          <p class="role">Columbia University<br/>sharon.di@columbia.edu</p>
+        </div>
+        <div class="org">
+          <div class="avatar">JS</div>
+          <div class="name">Dr. Jian Sun</div>
+          <p class="role">Tongji University<br/>sunjian@tongji.edu.cn</p>
+        </div>
+        <div class="org">
+          <div class="avatar">MZ</div>
+          <div class="name">Dr. Meixin Zhu</div>
+          <p class="role">Southeast University<br/>meixin@seu.edu.cn</p>
+        </div>
+        
+        <div class="org">
+          <div class="avatar">JS</div>
+          <div class="name">Dr. Jie Sun</div>
+          <p class="role">Tongji University<br/>jie sun@tongji.edu.cn</p>
+        </div>
+        <div class="org">
+          <div class="avatar">XS</div>
+          <div class="name">Dr. Xiaowei Shi</div>
+          <p class="role">UW–Milwaukee<br/>tomshi@uwm.edu</p>
+        </div>
+
+      </div>
+
+      <div class="copyright">
+        <div>© Workshop Organizers.</div>
+        <div>Single-file static page (ideal for GitHub Pages).</div>
+      </div>
+    </div>
+  </section>
+
   <script>
-    // Minimal drawer menu (single-file, no deps)
+    // Drawer menu (no dependencies)
     const drawer = document.getElementById('drawer');
     const openBtn = document.getElementById('openMenu');
     const closeBtn = document.getElementById('closeMenu');
 
-    function openDrawer(){
-      drawer.classList.add('open');
-      drawer.setAttribute('aria-hidden','false');
-    }
-    function closeDrawer(){
-      drawer.classList.remove('open');
-      drawer.setAttribute('aria-hidden','true');
-    }
+    const openDrawer = () => { drawer.classList.add('open'); drawer.setAttribute('aria-hidden','false'); };
+    const closeDrawer = () => { drawer.classList.remove('open'); drawer.setAttribute('aria-hidden','true'); };
 
     openBtn?.addEventListener('click', openDrawer);
     closeBtn?.addEventListener('click', closeDrawer);
     drawer?.addEventListener('click', (e)=>{ if(e.target === drawer) closeDrawer(); });
-    document.querySelectorAll('.drawer-link').forEach(a=>{
-      a.addEventListener('click', ()=> closeDrawer());
-    });
     document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') closeDrawer(); });
   </script>
+
 </body>
 </html>
