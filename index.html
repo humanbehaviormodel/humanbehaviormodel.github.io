@@ -271,44 +271,135 @@
     }
     .section li{margin: 10px 0}
 
-    /* ======== Program table card ======== */
+    /* ======== Program table ======== */
+    .program-meta{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      flex-wrap:wrap;
+      margin: 2px 0 18px;
+    }
+    .program-date{
+      display:inline-flex;
+      align-items:center;
+      min-height:34px;
+      padding:7px 12px;
+      border-radius:999px;
+      background:#111827;
+      color:#fff;
+      font-size:14px;
+      font-weight:850;
+      letter-spacing:.2px;
+    }
+    .program-note{
+      color: var(--muted);
+      font-size:15px;
+      font-weight:650;
+    }
     .card{
       background: var(--card);
-      border-radius: var(--radius);
+      border-radius: 8px;
       box-shadow: var(--shadow);
       border: 1px solid rgba(17,24,39,.10);
       overflow:hidden;
-      max-width: 820px;
+      max-width: 100%;
     }
+    .program-card{overflow-x:auto}
     .card table{
       width:100%;
       border-collapse:separate;
       border-spacing:0;
+      min-width: 860px;
     }
     .card thead th{
-      background:#2f363d;
+      background:#202832;
       color:#fff;
       font-weight:800;
       text-align:left;
-      padding:14px 16px;
-      font-size:16px;
+      padding:15px 18px;
+      font-size:15px;
+      letter-spacing:.2px;
     }
     .card tbody td{
-      padding:16px;
+      padding:15px 18px;
       border-top:1px solid rgba(17,24,39,.10);
       vertical-align:top;
       color:#111827;
       font-size:15.5px;
       line-height:1.6;
     }
+    .card tbody tr:nth-child(even):not(.program-break):not(.program-special) td{
+      background:#f8fafc;
+    }
     .time{
-      width:120px;
+      width:130px;
       font-variant-numeric: tabular-nums;
-      color:#374151;
+      color:#0f172a;
+      font-weight:850;
       white-space:nowrap;
     }
-    .talk b{color:#111827}
-    .talk i{color:#374151}
+    .talk{font-weight:720}
+    .speaker{
+      width:270px;
+      color:#334155;
+      font-weight:650;
+    }
+    .affiliation{
+      display:block;
+      margin-top:5px;
+      color:#64748b;
+      font-size:13px;
+      font-weight:700;
+      line-height:1.45;
+    }
+    .program-break td{
+      background:#fff7bf;
+      color:#6b4e00;
+      font-weight:850;
+    }
+    .program-special td{
+      background:#dff7e9;
+      color:#064e3b;
+      font-weight:850;
+    }
+    .program-keynote td{
+      background:#e0f2fe;
+      border-top:1px solid rgba(14,116,144,.28);
+      border-bottom:1px solid rgba(14,116,144,.28);
+    }
+    .program-keynote .time{
+      color:#075985;
+    }
+    .keynote-label{
+      display:inline-flex;
+      align-items:center;
+      margin-bottom:6px;
+      padding:4px 8px;
+      border-radius:999px;
+      background:#0e7490;
+      color:#fff;
+      font-size:12px;
+      font-weight:900;
+      letter-spacing:.4px;
+      text-transform:uppercase;
+    }
+    .speaker-title{
+      display:block;
+      margin-top:3px;
+      color:#0e7490;
+      font-size:13px;
+      font-weight:850;
+    }
+    .program-keynote .affiliation{
+      color:#075985;
+    }
+    @media (max-width: 720px){
+      .program-note{width:100%}
+      .card table{min-width: 760px}
+      .card thead th,
+      .card tbody td{padding:13px 14px}
+      .speaker{width:230px}
+    }
 
     /* ======== Dark footer area (Organizers style) ======== */
     .dark-area{
@@ -423,8 +514,6 @@
       <div style="height:12px"></div>
 
       <a class="link" href="#overview">Overview</a>
-      <a class="link" href="#abstract">Abstract</a>
-      <a class="link" href="#topics">Scope & Topics</a>
       <a class="link" href="#program">Program</a>
       <a class="link" href="#tc">ITSS Technical Committee</a>
       <a class="link" href="#organizers">Organizers</a>
@@ -492,91 +581,80 @@
         <p><b>Keywords:</b> Human Behavior Modeling, Human–Machine Interaction, Generative AI</p>
       </section>
 
-      <!-- Topics -->
-      <section id="topics" class="section anchor">
-        <h2>Call For Papers</h2>
-        <div class="rule"></div>
-        <p><b>The topics of interest of the workshop include, but are not limited to:</b></p>
-        <ul>
-          <li><b>Modeling & prediction of human behavior:</b> driver/VRU intent, interaction-aware forecasting, uncertainty & risk.</li>
-          <li><b>Human–AV interaction:</b> communication (gesture/language), interpretability, trust calibration, user comfort.</li>
-          <li><b>Generative modeling for behavior:</b> diffusion/LLM-based scenario and trajectory generation, rare-event synthesis.</li>
-          <li><b>Simulation & digital twins:</b> behavior-based simulation, mixed autonomy, evaluation of behavior realism.</li>
-          <li><b>Safety-critical scenarios:</b> long-tail events, corner cases, robustness in complex real-world environments.</li>
-        </ul>
-      </section>
-
       <!-- Program -->
       <section id="program" class="section anchor">
         <h2>Program</h2>
         <div class="rule"></div>
 
-        <b>TBD</b>
+        <div class="program-meta">
+          <span class="program-date">June 22, 2026</span>
+          <span class="program-note">Half-day workshop schedule</span>
+        </div>
 
-        <!-- <div class="card">
+        <div class="card program-card">
           <table>
             <thead>
               <tr>
-                <th style="width:120px">Time</th>
+                <th style="width:130px">Time</th>
                 <th>Session</th>
+                <th style="width:270px">Presenter / Authors</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td class="time">8:30–8:40</td>
-                <td class="talk"><b>Welcome and Introduction</b></td>
+              <tr class="program-special">
+                <td class="time">8:30&ndash;8:40</td>
+                <td class="talk">Welcome and Introduction</td>
+                <td class="speaker">Kehua Chen<span class="affiliation">University of Washington</span></td>
               </tr>
-              <tr>
-                <td class="time">8:40–9:20</td>
-                <td class="talk"><b>Invited Talk 1</b>: Customized Edge AI for Safer and Smarter Human-centric Road Transportation
-                  <br><i>Dr. Yinhai Wang, University of Washington</i>
-                </td>
-              </tr>
-              <tr>
-                <td class="time">9:20–10:20</td>
+              <tr class="program-keynote">
+                <td class="time">8:40&ndash;9:30</td>
                 <td class="talk">
-                  <b>Session 1: Modeling & Prediction of Human Behavior</b> (four contributed talks)
-                  <ul style="margin:10px 0 0 18px; color:#374151;">
-                    <li>Learning Human-Like Lane-Change and Merging Policies from Naturalistic Driving Data</li>
-                    <li>Multi-Agent Diffusion Models for Interactive Human–Vehicle Behavior Prediction</li>
-                    <li>Large Language Models as World Models for Traffic Scenario Generation and Reasoning</li>
-                    <li>Diffusion-Based Trajectory Generation for Human-Driven Vehicles in Mixed Traffic</li>
-                  </ul>
+                  <span class="keynote-label">Keynote Talk</span><br>
+                  Title TBD
                 </td>
+                <td class="speaker">Xiaopeng Li<span class="speaker-title">Keynote Speaker</span><span class="affiliation">University of Wisconsin&ndash;Madison</span></td>
+              </tr>
+              <tr class="program-break">
+                <td class="time">9:30&ndash;9:40</td>
+                <td class="talk" colspan="2">Coffee Break</td>
               </tr>
               <tr>
-                <td class="time">10:20–10:50</td>
-                <td class="talk"><b>Refreshments break</b></td>
+                <td class="time">9:40&ndash;10:05</td>
+                <td class="talk">Pedestrian Crossing Intent Prediction Via Psychological Features and Transformer Fusion</td>
+                <td class="speaker">Ashayer, Sima; Nguyen, Hoang H.; Liang, Yu; Sartipi, Mina<span class="affiliation">The University of Tennessee at Chattanooga</span></td>
               </tr>
               <tr>
-                <td class="time">10:50–11:20</td>
-                <td class="talk"><b>Invited Talk 2</b>: Unveiling Uniform Shifted Power Law in Stochastic Human and Autonomous Driving Behavior
-                  <br><i>Dr. Xiaopeng Li, University of Wisconsin–Madison</i>
-                </td>
+                <td class="time">10:05&ndash;10:30</td>
+                <td class="talk">Diffusion<sup>2</sup>: Dual Diffusion Model with Uncertainty-Aware Adaptive Noise for Momentary Trajectory Prediction</td>
+                <td class="speaker">Yuhao Luo<span class="affiliation">University of Wisconsin&ndash;Madison</span></td>
               </tr>
               <tr>
-                <td class="time">11:20–12:00</td>
-                <td class="talk">
-                  <b>Session 2: Simulation, Digital Twins, and Evaluation</b> (four contributed talks)
-                  <ul style="margin:10px 0 0 18px; color:#374151;">
-                    <li>Behavior-Based Simulation of Rare but Safety-Critical Traffic Scenarios</li>
-                    <li>Human-Centered Digital Twins for Urban Traffic with Mixed Autonomy</li>
-                    <li>Evaluating Behavior Realism of Autonomous Vehicles via Human-in-the-Loop Simulation</li>
-                    <li>Benchmarking Driver Behavior Models for Human–Vehicle Interaction at Urban Intersections</li>
-                  </ul>
-                </td>
+                <td class="time">10:30&ndash;10:55</td>
+                <td class="talk">TBD</td>
+                <td class="speaker">Tianming Liu<span class="affiliation">University of Michigan</span></td>
+              </tr>
+              <tr class="program-break">
+                <td class="time">10:55&ndash;11:05</td>
+                <td class="talk" colspan="2">Coffee Break</td>
               </tr>
               <tr>
-                <td class="time">12:00–12:20</td>
-                <td class="talk"><b>Panel discussion</b></td>
+                <td class="time">11:05&ndash;11:30</td>
+                <td class="talk">Car-Following Models and Congestion Control with Followerstopper on a Ring-Road under Known Delay &mdash; Examining Limit Cycle</td>
+                <td class="speaker">McClain, Trevor; Bhadani, Rahul<span class="affiliation">The University of Alabama in Huntsville</span></td>
               </tr>
               <tr>
-                <td class="time">12:20–12:30</td>
-                <td class="talk"><b>Closing</b></td>
+                <td class="time">11:30&ndash;11:55</td>
+                <td class="talk">Camera-Less In-Seat Posture Classification &amp; Template Based Pose Reconstruction Using Pressure Sensor Fusion</td>
+                <td class="speaker">Siddhant Deore, Hrushikesh Sawant, Madhav Rao<span class="affiliation">International Institute of Information Technology Bangalore</span></td>
+              </tr>
+              <tr class="program-special">
+                <td class="time">11:55&ndash;12:00</td>
+                <td class="talk">Close</td>
+                <td class="speaker">Kehua Chen<span class="affiliation">University of Washington</span></td>
               </tr>
             </tbody>
           </table>
-        </div> -->
+        </div>
       </section>
 
       <!-- ITSS TC -->
